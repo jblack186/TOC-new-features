@@ -3,7 +3,7 @@
   width: 90%;
   min-height: 85vh;
   margin: 0 auto;
-
+  position: relative;
   &__text {
     width: 80%;
     margin: 0 auto;
@@ -58,4 +58,12 @@
       margin-top: 200px;
     }
   }
+}
+
+.escape {
+  z-index: 999999;
+  position: fixed;
+  right: 100px;
+  cursor: pointer;
+  width: 30px;
 }
