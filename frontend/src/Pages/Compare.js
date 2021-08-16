@@ -4,6 +4,7 @@ import BrandItem from "../components/BrandItem";
 import Modal from "../components/Modal";
 import mockData from "../brandJSON";
 import Escape from '../img/close.svg';
+import axios from "axios";
 
 
 const Compare = () => {
@@ -12,10 +13,11 @@ const Compare = () => {
 
   function babyBrand(e) {
     e.preventDefault()
-    setBrandChoice(e.target.value)
-      // axios.get(`https://api.spoonacular.com/food/products/search?apiKey=648c0fa98bff450295c089d1a791f846&query=${e.target.value}`)
+    // setBrandChoice(e.target.value)
+      axios.get(`https://api.spoonacular.com/food/products/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${e.target.value || "gerber"}`)
       .then((res) => {
         console.log("respose", res);
+        setBrandChoice(res.data.products)
       })
       .catch((err) => {
         console.log("err", err);
@@ -45,7 +47,7 @@ const Compare = () => {
         <button onClick={babyBrand} value="Beech Nut Baby Food">
           Beech Nut
         </button>
-        <button onClick={babyBrand} value="Plum">
+        <button onClick={babyBrand} value="Plum baby food">
           Plum
         </button>
         <button onClick={babyBrand} value="Earths Best Baby Foods">
@@ -53,7 +55,7 @@ const Compare = () => {
         </button>
       </section>
       <section className="compare__brand-items">
-        {mockData.products.map((item) => {
+        {brandChoice && brandChoice.map((item) => {
           return (
             <div
               onClick={() => {
@@ -62,7 +64,7 @@ const Compare = () => {
               className="compare__brand-items__flex"
             >
               <BrandItem title={item.title} image={item.image} />
-              {brandId === item.id ? <Modal itemName={item.title} resetBrand={resetBrand} escape={escape} id={item.id} /> : null}
+              {brandId === item.id ? <Modal name={item.title} resetBrand={resetBrand} escape={escape} id={item.id} /> : null}
             </div>
           );
         })}
